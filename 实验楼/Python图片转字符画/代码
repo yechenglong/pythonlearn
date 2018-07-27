@@ -1,0 +1,35 @@
+from PIL import Image
+import subprocess
+from urllib import request
+# 设定字符串
+ascii_char = list("$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ")
+# 设定字符画的大小
+WIDTH = 90
+HEIGHT = 45
+img_link = "http://labfile.oss.aliyuncs.com/courses/370/test.png"#"http://labfile.oss.aliyuncs.com/courses/370/ascii_dora.png"
+
+# 将256灰度映射到字符上
+def get_char(r,g,b,alpha = 256):
+    if alpha == 0:
+        return " "#透明度为0则无图
+    length = len(ascii_char)
+    # 灰度计算公式
+    gray = int(0.299 * r + 0.578 * g + 0.114 * b)
+    unit = 256/length
+    return ascii_char[int(gray/unit)]# 按灰度值计算字符区间
+# 将图片转成字符画
+if __name__ == '__main__':
+    #下载图片
+    request.urlretrieve(img_link,"12.png")
+    #打开图片
+    im = Image.open("12.png")
+    #将图片按比例缩放
+    im = im.resize((WIDTH,HEIGHT),Image.NEAREST)
+    txt = ''
+    for i in range(HEIGHT):
+        for j in range(WIDTH):
+            txt += get_char(*im.getpixel((j,i)))#读取(j,i)像素点的r,g,b,alpha值用于计算灰度
+        txt += '\n'
+
+    with open("output2.txt","w") as f:
+        f.write(txt)
