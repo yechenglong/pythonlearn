@@ -31,6 +31,7 @@ class Action(object):
 
 class Grid(object):
 
+
     def __init__(self, size):
         self.size = size
         self.cells = None
