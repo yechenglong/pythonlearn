@@ -1,39 +1,32 @@
 from PIL import Image
-from urllib import request
-# 定义要转换的字符串
-char = list("$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ")
-# 定义字符图的长宽
+import requests
+ascii_char = list("1234567890-=!@#$%^&*()_+qwertyuiop[]asdfghjkl;'zxcvbnm,./{}|:<>?\" ")
+url = "http://labfile.oss.aliyuncs.com/courses/370/test.png"#"http://labfile.oss.aliyuncs.com/courses/370/ascii_dora.png"
 WIDTH = 90
 HEIGHT = 45
-# 定义下载图片的地址和保存地址
-img_path = "test.png"
-img_url = "http://labfile.oss.aliyuncs.com/courses/370/test.png"
-# 定义灰度值转换字符函数
-def gray2char(r,g,b,alpha=256):
-    if alpha == 0 :
-        return  ' '
-    gray = int(0.299 * r + 0.578 * g + 0.114 * b)#计算灰度值
-    length = len(char)
-    #映射灰度值对应的字符
-    unit = 256/length
-    return char[int(gray/unit)]
+def image2char(r,g,b,alpha = 256):
+    if alpha == 0:
+        return ' '
+    gray = int(0.2126 * r + 0.7152 * g + 0.0722 * b)
+    length = len(ascii_char)
+    return ascii_char[int(gray/(256/length))]
 
-if __name__ == "__main__":
-    #下载图片
-    request.urlretrieve(img_url,img_path)
-    im = Image.open(img_path)
+if __name__ =='__main__':
+    ir=requests.get(url)
+    with open("13.png", 'wb') as f:
+        f.write(ir.content)
+
+    im = Image.open('13.png')
     im = im.resize((WIDTH,HEIGHT),Image.NEAREST)
     txt = ''
-    # for i in range(HEIGHT):
-    #     for j in range(WIGHT):
-    #         txt += gray2char(*im.getpixel((j,i)))
-    #     txt += '\n'
     for i in range(HEIGHT):
         for j in range(WIDTH):
-            txt += gray2char(*im.getpixel((j,i)))
+            txt += image2char(*im.getpixel((j,i)))
         txt += '\n'
     print(txt)
-    with open("output.txt","w") as f:
+    with open("output.txt", 'w') as f:
         f.write(txt)
+
+
 
 

@@ -17,6 +17,7 @@ class Action(object):
     actions = [UP, LEFT, DOWN, RIGHT, RESTART, EXIT]
     # 将UP, LEFT, DOWN, RIGHT, RESTART, EXIT和WASDRQwasdrq进行匹配{87: 'up', 65: 'left', 83: 'down', 68:
     # 'right', 82: 'restart', 81: 'exit', 119: 'up', 97: 'left', 115: 'down', 100: 'right', 114: 'restart', 113: 'exit'}
+    # zip()把列表合并，并创建一个元组对的列表,dict()传一个包含一个或多个元祖的列表建立字典
     actions_dict = dict(zip(letter_codes, actions * 2))
 
     def __init__(self, stdscr):

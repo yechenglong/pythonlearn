@@ -28,6 +28,11 @@ if __name__ == '__main__':
     txt = ''
     for i in range(HEIGHT):
         for j in range(WIDTH):
+                    '''
+            返回的是一个元组，这个元组有三个元素，分别对应三个颜色通道（RGB）的值。
+            * 是一个运算符，对元组使用 * 运算符即为元组拆封操作。元组拆封会返回元祖的所有元素。
+            所以表达式 *im.getpixel((j,i)) 返回 3 个值，正好对应 get_char() 函数的三个参数
+        '''
             txt += get_char(*im.getpixel((j,i)))#读取(j,i)像素点的r,g,b,alpha值用于计算灰度
         txt += '\n'
 
